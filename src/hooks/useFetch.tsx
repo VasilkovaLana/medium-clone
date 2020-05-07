@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -28,7 +27,7 @@ export const useFetch = (url: string) => {
       }
     };
     fetchData();
-  }, [isLoading]);
+  }, [isLoading, options, url]);
 
   return { isLoading, response, error, doFetch };
 };

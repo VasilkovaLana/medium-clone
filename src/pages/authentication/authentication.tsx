@@ -83,10 +83,8 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
-  const { response, isLoading, error, doFetch } = useFetch(apiUrl);
+  const { response, isLoading, doFetch } = useFetch(apiUrl);
   const [token, setToken] = useLocalStorage('token');
-
-  console.log('token', token);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -103,8 +101,7 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
     if (!response) return;
     setToken(response.user.token);
     setIsSuccessfullSubmit(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response]);
+  }, [response, setToken]);
 
   if (isSuccessfullSubmit) {
     return <Redirect to="/" />;
