@@ -1,7 +1,8 @@
-import React, { FC, useState, useEffect, FormEvent } from 'react';
+import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { CurrentUserContext } from '../../contexts/currentUser';
 
 import styled from 'styled-components';
 
@@ -83,8 +84,9 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
-  const { response, isLoading, doFetch } = useFetch(apiUrl);
-  const [token, setToken] = useLocalStorage('token');
+  const { response, isLoading, error, doFetch } = useFetch(apiUrl);
+  const [, setToken] = useLocalStorage('token');
+  const [, setCurrentUserState] = useContext(CurrentUserContext);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,7 +103,13 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
     if (!response) return;
     setToken(response.user.token);
     setIsSuccessfullSubmit(true);
-  }, [response, setToken]);
+    setCurrentUserState((state: any) => ({
+      ...state,
+      isLoggedIn: true,
+      isLoading: false,
+      currentUser: response.user,
+    }));
+  }, [response, setCurrentUserState, setToken]);
 
   if (isSuccessfullSubmit) {
     return <Redirect to="/" />;
@@ -113,6 +121,7 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
         <Logo>{pageTitle}</Logo>
         <StyledLink to={descriptionLink}>{descriptionText}</StyledLink>
         <Form onSubmit={handleSubmit}>
+          {error && <BackendErrorMessages backendErrors={error.errors} />}
           {!isLogin && (
             <AuthInput
               type="text"
