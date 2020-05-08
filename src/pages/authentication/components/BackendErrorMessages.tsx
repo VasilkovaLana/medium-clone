@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { IError } from '../../../hooks/useFetch';
 
 const ErrorMessages = styled.ul`
   color: #b85c5c;

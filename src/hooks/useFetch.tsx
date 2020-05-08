@@ -4,8 +4,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 export const useFetch = (url: string) => {
   const baseUrl = 'https://conduit.productionready.io/api';
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState<IUseFetch | null>(null);
-  const [error, setError] = useState(null);
+  const [response, setResponse] = useState<IResponse | null>(null);
+  const [error, setError] = useState<IError | null>(null);
   const [options, setOptions] = useState({});
 
   const doFetch = (options: AxiosRequestConfig) => {
@@ -32,8 +32,14 @@ export const useFetch = (url: string) => {
   return { isLoading, response, error, doFetch };
 };
 
-interface IUseFetch {
+interface IResponse {
   user: {
     token: string;
+  };
+}
+
+interface IError {
+  errors: {
+    [key: string]: string[];
   };
 }
