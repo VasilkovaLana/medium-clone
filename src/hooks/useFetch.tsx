@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { useLocalStorage } from './useLocalStorage';
 
 export const useFetch = (url: string) => {
   const baseUrl = 'https://conduit.productionready.io/api';
@@ -7,18 +8,30 @@ export const useFetch = (url: string) => {
   const [response, setResponse] = useState<IResponse | null>(null);
   const [error, setError] = useState<IError | null>(null);
   const [options, setOptions] = useState({});
+  const [token] = useLocalStorage('token');
 
-  const doFetch = (options: AxiosRequestConfig) => {
+  const doFetch = (options: AxiosRequestConfig = {}) => {
     setOptions(options);
     setIsLoading(true);
   };
 
   useEffect(() => {
+    const requestOptions = {
+      ...options,
+      ...{
+        headers: {
+          authorization: token ? `Token ${token}` : '',
+        },
+      },
+    };
     if (!isLoading) return;
 
     const fetchData = async () => {
       try {
-        const res: AxiosResponse = await axios(`${baseUrl}${url}`, options);
+        const res: AxiosResponse = await axios(
+          `${baseUrl}${url}`,
+          requestOptions
+        );
         setIsLoading(false);
         setResponse(res.data);
       } catch (error) {
@@ -27,7 +40,7 @@ export const useFetch = (url: string) => {
       }
     };
     fetchData();
-  }, [isLoading, options, url]);
+  }, [isLoading, options, token, url]);
 
   return { isLoading, response, error, doFetch };
 };

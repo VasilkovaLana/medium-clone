@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { CurrentUserContext } from '../../contexts/currentUser';
+import { CurrentUserContext, IState } from '../../contexts/currentUser';
 import { BackendErrorMessages } from './components/BackendErrorMessages';
 
 import styled from 'styled-components';
@@ -87,7 +87,10 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
   const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
   const { response, isLoading, error, doFetch } = useFetch(apiUrl);
   const [, setToken] = useLocalStorage('token');
-  const [, setCurrentUserState] = useContext(CurrentUserContext);
+  const [currentUserState, setCurrentUserState] = useContext(
+    CurrentUserContext
+  );
+  console.log('currentUserState', currentUserState);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,7 +107,7 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
     if (!response) return;
     setToken(response.user.token);
     setIsSuccessfullSubmit(true);
-    setCurrentUserState((state: any) => ({
+    setCurrentUserState((state: IState) => ({
       ...state,
       isLoggedIn: true,
       isLoading: false,
