@@ -87,10 +87,7 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
   const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
   const { response, isLoading, error, doFetch } = useFetch(apiUrl);
   const [, setToken] = useLocalStorage('token');
-  const [currentUserState, setCurrentUserState] = useContext(
-    CurrentUserContext
-  );
-  console.log('currentUserState', currentUserState);
+  const [, setCurrentUserState] = useContext(CurrentUserContext);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
