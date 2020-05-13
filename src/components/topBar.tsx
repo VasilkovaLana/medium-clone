@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { CurrentUserContext } from '../contexts/currentUser';
 
 import styled from 'styled-components';
 
@@ -41,6 +42,8 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 export const TopBar: FC = () => {
+  const [currentUserState] = useContext(CurrentUserContext);
+
   return (
     <Navbar>
       <Container>
@@ -51,8 +54,23 @@ export const TopBar: FC = () => {
           <StyledNavLink to="/" exact>
             Home
           </StyledNavLink>
-          <StyledNavLink to="/login">Sign in</StyledNavLink>
-          <StyledNavLink to="/register">Sign up</StyledNavLink>
+          {!currentUserState.isLoggedIn && (
+            <>
+              <StyledNavLink to="/login">Sign in</StyledNavLink>
+              <StyledNavLink to="/register">Sign up</StyledNavLink>
+            </>
+          )}
+          {currentUserState.isLoggedIn && (
+            <>
+              <StyledNavLink to="/articles/new">New Post</StyledNavLink>
+              <StyledNavLink
+                to={`/profiles/${currentUserState.currentUser.username}`}
+              >
+                <img src={currentUserState.currentUser.image} alt="" />
+                &nbsp; {currentUserState.currentUser.username}
+              </StyledNavLink>
+            </>
+          )}
         </ListButtons>
       </Container>
     </Navbar>
