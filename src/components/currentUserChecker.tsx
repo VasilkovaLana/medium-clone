@@ -21,8 +21,7 @@ export const CurrentUserChecker = ({ children }: any) => {
       ...state,
       isLoading: true,
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, setCurrentUserState]);
+  }, [token, setCurrentUserState, doFetch]);
 
   useEffect(() => {
     if (!response) return;
