@@ -46,6 +46,7 @@ export const useFetch = (url: string) => {
 };
 
 interface IResponse {
+  articles: any;
   user: {
     token: string;
   };
