@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { IResponse } from '../hooks/useFetch';
 
 const ArticlePreview = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -55,10 +56,10 @@ const PreviewLink = styled(Link)`
   }
 `;
 
-export const Feed = ({ articles }: any) => {
+export const Feed: FC<IResponse> = ({ articles }) => {
   return (
     <div>
-      {articles.map((article: any, index: number) => (
+      {articles.map((article, index) => (
         <ArticlePreview key={index}>
           <ArticleMeta>
             <Link to={`/profiles/${article.author.username}`}>
@@ -76,7 +77,7 @@ export const Feed = ({ articles }: any) => {
             <p>{article.description}</p>
             <span>Read more...</span>
             <ul className="tag-list">
-              {article.tagList.map((tag: any) => (
+              {article.tagList!.map((tag: string) => (
                 <li key={tag}>{tag}</li>
               ))}
             </ul>

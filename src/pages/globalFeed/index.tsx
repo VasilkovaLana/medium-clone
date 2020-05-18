@@ -1,6 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { useFetch } from '../../hooks/useFetch';
 import { Feed } from '../../components/feed';
+import { Pagination } from '../../components/pagination';
+import { getPaginator } from '../../utils/getPaginator';
+import { stringify } from 'query-string';
 
 import styled from 'styled-components';
 
@@ -28,8 +31,6 @@ const Banner = styled.div`
 const ContainerPage = styled.div`
   display: flex;
   flex-direction: row;
-  /* flex-shrink:  */
-  /* justify-content: space-around; */
   margin: 24px 56.5px 0 56.5px;
   padding: 0 15px;
   max-width: 1140px;
@@ -38,13 +39,20 @@ const ContainerPage = styled.div`
   }
 `;
 
-export const GlobalFeed: FC = () => {
-  const apiUrl = '/articles?limit=10&offset=0';
+export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
+  const limit = 10;
+  const url = match.url;
+  const { offset, currentPage } = getPaginator(location.search);
+  const stringifiedParams = stringify({
+    limit,
+    offset,
+  });
+  const apiUrl = `/articles?${stringifiedParams}`;
   const { response, isLoading, error, doFetch } = useFetch(apiUrl);
 
   useEffect(() => {
     doFetch();
-  }, [doFetch]);
+  }, [doFetch, currentPage]);
 
   return (
     <div>
@@ -56,10 +64,29 @@ export const GlobalFeed: FC = () => {
         <div>
           {isLoading && <div>Loading...</div>}
           {error && <div>Some error happened</div>}
-          {!isLoading && response && <Feed articles={response.articles} />}
+          {!isLoading && response && (
+            <>
+              <Feed articles={response.articles} />
+              <Pagination
+                total={response.articlesCount!}
+                limit={limit}
+                url={url}
+                currentPage={currentPage}
+              />
+            </>
+          )}
         </div>
         <div>Popular tags</div>
       </ContainerPage>
     </div>
   );
 };
+
+interface IGlobalFeed {
+  location: {
+    search: string;
+  };
+  match: {
+    url: string;
+  };
+}

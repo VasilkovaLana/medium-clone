@@ -45,11 +45,24 @@ export const useFetch = (url: string) => {
   return { isLoading, response, error, doFetch };
 };
 
-interface IResponse {
-  articles: any;
-  user: {
+export interface IResponse {
+  articles: [
+    {
+      author: {
+        username: string;
+        image?: string;
+      };
+      createdAt: string;
+      description: string;
+      slug: string;
+      title: string;
+      tagList: string[];
+    }
+  ];
+  user?: {
     token: string;
   };
+  articlesCount?: number;
 }
 
 interface IError {

@@ -102,7 +102,7 @@ export const Authentication: FC<RouteComponentProps> = ({ match }) => {
 
   useEffect(() => {
     if (!response) return;
-    setToken(response.user.token);
+    setToken(response.user!.token);
     setIsSuccessfullSubmit(true);
     setCurrentUserState((state: IState) => ({
       ...state,
