@@ -4,6 +4,8 @@ import { Feed } from '../../components/feed';
 import { Pagination } from '../../components/pagination';
 import { getPaginator } from '../../utils/getPaginator';
 import { stringify } from 'query-string';
+import { Loading } from '../../components/loading';
+import { ErrorMessage } from '../../components/errorMessage';
 
 import styled from 'styled-components';
 
@@ -62,8 +64,8 @@ export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
       </Banner>
       <ContainerPage>
         <div>
-          {isLoading && <div>Loading...</div>}
-          {error && <div>Some error happened</div>}
+          {isLoading && <Loading />}
+          {error && <ErrorMessage />}
           {!isLoading && response && (
             <>
               <Feed articles={response.articles} />
