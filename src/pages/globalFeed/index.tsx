@@ -4,6 +4,7 @@ import { Feed } from '../../components/feed';
 import { Pagination } from '../../components/pagination';
 import { getPaginator } from '../../utils/getPaginator';
 import { stringify } from 'query-string';
+import { PopularTags } from '../../components/popularTags';
 import { Loading } from '../../components/loading';
 import { ErrorMessage } from '../../components/errorMessage';
 
@@ -78,7 +79,9 @@ export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
             </>
           )}
         </div>
-        <div>Popular tags</div>
+        <div>
+          <PopularTags />
+        </div>
       </ContainerPage>
     </div>
   );

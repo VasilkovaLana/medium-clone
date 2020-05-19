@@ -63,6 +63,7 @@ export interface IResponse {
     token: string;
   };
   articlesCount?: number;
+  tags?: string[];
 }
 
 interface IError {
