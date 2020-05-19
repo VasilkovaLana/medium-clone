@@ -7,6 +7,7 @@ const ArticlePreview = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding: 24px 0;
   font-size: 16px;
+  margin-right: 15px;
 `;
 
 const ArticleMeta = styled.div`

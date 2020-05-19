@@ -34,7 +34,8 @@ const Banner = styled.div`
 const ContainerPage = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 24px 56.5px 0 56.5px;
+  justify-content: center;
+  margin: 24px auto 0 auto;
   padding: 0 15px;
   max-width: 1140px;
   > div:first-child {

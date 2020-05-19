@@ -9,6 +9,7 @@ const PaginationList = styled.ul`
   flex-direction: row;
   flex-wrap: wrap;
   margin: 16px 0;
+  padding: 0;
   font-size: 16px;
   color: rgb(55, 58, 60);
   border-radius: 4px;
