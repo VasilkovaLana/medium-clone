@@ -7,9 +7,9 @@ import { stringify } from 'query-string';
 import { PopularTags } from '../../components/popularTags';
 import { Loading } from '../../components/loading';
 import { ErrorMessage } from '../../components/errorMessage';
-import { FeedToggler } from '../../components/feedToggler';
 
 import styled from 'styled-components';
+import { FeedToggler } from '../../components/feedToggler';
 
 const Banner = styled.div`
   background: #5cb85c;
@@ -44,20 +44,23 @@ const ContainerPage = styled.div`
   }
 `;
 
-export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
+export const TagFeed: FC<ITagFeed> = ({ location, match }) => {
+  const tagName = match.params.slug;
+
   const limit = 10;
   const url = match.url;
   const { offset, currentPage } = getPaginator(location.search);
   const stringifiedParams = stringify({
     limit,
     offset,
+    tag: tagName,
   });
   const apiUrl = `/articles?${stringifiedParams}`;
   const { response, isLoading, error, doFetch } = useFetch(apiUrl);
 
   useEffect(() => {
     doFetch();
-  }, [doFetch, currentPage]);
+  }, [doFetch, currentPage, tagName]);
 
   return (
     <div>
@@ -67,7 +70,7 @@ export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
       </Banner>
       <ContainerPage>
         <div>
-          <FeedToggler />
+          <FeedToggler tagName={tagName} />
           {isLoading && <Loading />}
           {error && <ErrorMessage />}
           {!isLoading && response && (
@@ -90,11 +93,14 @@ export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
   );
 };
 
-interface IGlobalFeed {
+interface ITagFeed {
   location: {
     search: string;
   };
   match: {
     url: string;
+    params: {
+      slug: string;
+    };
   };
 }

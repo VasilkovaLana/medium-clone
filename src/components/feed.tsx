@@ -5,7 +5,7 @@ import { IResponse } from '../hooks/useFetch';
 
 const ArticlePreview = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
+  padding-top: 24px;
   font-size: 16px;
   margin-right: 15px;
 `;
@@ -39,6 +39,8 @@ const ArticleDate = styled.span`
 `;
 
 const PreviewLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   h1 {
     font-weight: 600;
@@ -57,6 +59,25 @@ const PreviewLink = styled(Link)`
   }
 `;
 
+const TagList = styled.ul`
+  max-width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  align-self: flex-end;
+  li {
+    padding: 2px 7.7px;
+    margin: 0 0 3.2px 3px;
+    border: 1px solid #ddd;
+    color: #aaa;
+    background: 0 0;
+    border-radius: 50px;
+    font-size: 12.8px;
+  }
+`;
+
 export const Feed: FC<IResponse> = ({ articles }) => {
   return (
     <div>
@@ -70,18 +91,18 @@ export const Feed: FC<IResponse> = ({ articles }) => {
               <AuthorLink to={`/profiles/${article.author.username}`}>
                 {article.author.username}
               </AuthorLink>
-              <ArticleDate className="date">{article.createdAt}</ArticleDate>
+              <ArticleDate>{article.createdAt}</ArticleDate>
             </Info>
           </ArticleMeta>
           <PreviewLink to={`/article/${article.slug}`}>
             <h1>{article.title}</h1>
             <p>{article.description}</p>
             <span>Read more...</span>
-            <ul className="tag-list">
+            <TagList>
               {article.tagList!.map((tag: string) => (
                 <li key={tag}>{tag}</li>
               ))}
-            </ul>
+            </TagList>
           </PreviewLink>
         </ArticlePreview>
       ))}

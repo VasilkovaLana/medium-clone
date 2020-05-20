@@ -40,7 +40,7 @@ export const FeedToggler: FC<IFeedToggler> = ({ tagName }) => {
       {tagName && (
         <NavItem>
           <StyleNavLink to={`/tags/${tagName}`} exact>
-            {tagName}
+            {`# ${tagName}`}
           </StyleNavLink>
         </NavItem>
       )}
@@ -49,5 +49,5 @@ export const FeedToggler: FC<IFeedToggler> = ({ tagName }) => {
 };
 
 interface IFeedToggler {
-  tagName: string;
+  tagName?: string;
 }
