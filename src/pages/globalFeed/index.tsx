@@ -9,6 +9,7 @@ import { Loading } from '../../components/loading';
 import { ErrorMessage } from '../../components/errorMessage';
 
 import styled from 'styled-components';
+import { FeedToggler } from '../../components/feedToggler';
 
 const Banner = styled.div`
   background: #5cb85c;
@@ -66,6 +67,7 @@ export const GlobalFeed: FC<IGlobalFeed> = ({ location, match }) => {
       </Banner>
       <ContainerPage>
         <div>
+          <FeedToggler tagName="foo" />
           {isLoading && <Loading />}
           {error && <ErrorMessage />}
           {!isLoading && response && (
