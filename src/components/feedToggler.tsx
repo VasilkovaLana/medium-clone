@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { CurrentUserContext } from '../contexts/currentUser';
 
 import styled from 'styled-components';
 
@@ -31,11 +32,14 @@ const StyleNavLink = styled(NavLink)`
 `;
 
 export const FeedToggler: FC<IFeedToggler> = ({ tagName }) => {
+  const [currentUserState] = useContext(CurrentUserContext);
   return (
     <FeedToggle>
-      <NavItem>
-        <StyleNavLink to="/feed">Yor feed</StyleNavLink>
-      </NavItem>
+      {currentUserState.isLoggedIn && (
+        <NavItem>
+          <StyleNavLink to="/feed">Yor feed</StyleNavLink>
+        </NavItem>
+      )}
       <NavItem>
         <StyleNavLink to="/" exact>
           Global feed
