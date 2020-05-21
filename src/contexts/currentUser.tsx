@@ -1,19 +1,45 @@
-import React, { createContext, useState } from 'react';
+import React, { FC, createContext, useReducer } from 'react';
 
-export const CurrentUserContext: any = createContext([{}, () => {}]);
+const initialState = {
+  isLoading: false,
+  isLoggedIn: false,
+  currentUser: null,
+};
 
-export const CurrentUserProvider = ({ children }: any) => {
-  const [state, setState] = useState<IState>({
-    isLoading: false,
-    isLoggedIn: false,
-    currentUser: null,
-  });
+const reducer = (state: IState, action: IAction) => {
+  switch (action.type) {
+    case 'LOADING':
+      return { ...state, isLoading: true };
+    case 'SET_AUTHORIZED':
+      return {
+        ...state,
+        isLoggedIn: true,
+        isLoading: false,
+        currentUser: action.payload,
+      };
+    case 'SET_UNAUTHORIZED':
+      return { ...state, isLoggedIn: false };
+    default:
+      return state;
+  }
+};
+
+export const CurrentUserContext: any = createContext([]);
+
+export const CurrentUserProvider: FC = ({ children }) => {
+  const value = useReducer(reducer, initialState);
+
   return (
-    <CurrentUserContext.Provider value={[state, setState]}>
+    <CurrentUserContext.Provider value={value}>
       {children}
     </CurrentUserContext.Provider>
   );
 };
+
+interface IAction {
+  type: string;
+  payload: boolean | { token: string };
+}
 
 export interface IState {
   isLoading: boolean;
