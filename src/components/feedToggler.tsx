@@ -24,6 +24,10 @@ const StyleNavLink = styled(NavLink)`
   padding: 8px 16px;
   font-size: 16px;
   text-decoration: none;
+  &.active {
+    border-bottom: 2px solid #5cb85c;
+    color: #5cb85c;
+  }
 `;
 
 export const FeedToggler: FC<IFeedToggler> = ({ tagName }) => {
