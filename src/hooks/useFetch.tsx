@@ -66,7 +66,7 @@ export interface IResponse {
   tags?: string[];
 }
 
-interface IError {
+export interface IError {
   errors: {
     [key: string]: string[];
   };

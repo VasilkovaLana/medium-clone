@@ -43,19 +43,24 @@ const PreviewLink = styled(Link)`
   flex-direction: column;
   text-decoration: none;
   h1 {
+    width: fit-content;
     font-weight: 600;
     margin-bottom: 3px;
-    cursor: pointer;
     font-size: 24px;
     color: black;
+    cursor: pointer;
   }
   p {
+    width: fit-content;
     color: #999;
     margin: 0 0 15px 0;
+    cursor: pointer;
   }
   span {
+    width: fit-content;
     color: #bbb;
     font-size: 12px;
+    cursor: pointer;
   }
 `;
 
